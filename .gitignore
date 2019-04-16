@@ -1,0 +1,8 @@
+.vscode/
+.DS_Store
+.idea/
+node_modules/
+test/
+public/upload
+logs/
+public/upload/
