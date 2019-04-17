@@ -3,6 +3,5 @@
 .idea/
 node_modules/
 test/
-public/upload
 logs/
-public/upload/
+public/upload/*
