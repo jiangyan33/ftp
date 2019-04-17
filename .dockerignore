@@ -1,6 +1,5 @@
 .vscode/
 .DS_Store
 .idea/
-public/upload/
 .git
 .npm_cache
