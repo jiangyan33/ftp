@@ -1,7 +1,6 @@
 .vscode/
 .DS_Store
 .idea/
-test/
-node_modules/
 public/upload/
-logs/
+.git
+.npm_cache

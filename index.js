@@ -8,9 +8,9 @@ const http = require('http');
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let date = new Date();
-        let folder = path.join(__dirname, `./public/upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}/`)
+        let folder = path.join(__dirname, `./public/upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`)
         if (!fs.existsSync(folder)) {
-            fs.mkdirSync(folder);
+            fs.mkdirSync(folder, { recursive: true });
         }
         cb(null, path.join(folder));
     },
