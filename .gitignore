@@ -4,4 +4,4 @@
 node_modules/
 test/
 logs/
-public/upload/*
+public/upload/**
