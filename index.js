@@ -48,6 +48,7 @@ app.use('/upload', upload.single('file'), (req, res) => {
     };
     try {
         return_data['url'] = req.file.path.substring(req.file.path.indexOf('/upload'));
+        console.log(`文件上传成功,完成时间:${new Date().toLocaleString()}`);
     } catch (error) {
         return_data.success = 0;
         return_data.message = error;
@@ -58,7 +59,7 @@ app.use('/upload', upload.single('file'), (req, res) => {
 server.on('error', console.error);
 
 // 启动服务
-server.listen(3999, () => console.log(`文件服务器项目启动成功, please click\n http://127.0.0.1:3999`));
+server.listen(3999, () => console.log(`文件服务器项目启动成功,启动时间:${new Date().toLocaleString()} please click\n http://127.0.0.1:3999`));
 
 // 进程事件的监听
 process.on('uncaughtException', error => { // 未捕获的异常事件
