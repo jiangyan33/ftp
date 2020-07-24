@@ -10,16 +10,17 @@
     <script type="text/javascript">
         function login() {
             var form = new FormData(document.getElementById("form"));
-            var path=form.get('path');
-            var url="/upload";
-            if(path){
-                url+=${url};
+            var path = form.get('path');
+            var url = "/upload";
+            if (path) {
+                url += `?path=${form.get('path')}`;
+                form.delete('path');
             }
             $.ajax({
                 //几个参数需要注意一下
                 type: "POST",//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: "/upload",//url
+                url: url,//url
                 data: form,
                 processData: false,
                 contentType: false,
