@@ -8,16 +8,9 @@ const { Z_FIXED } = require('zlib');
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let folder = req.query.path ? req.query.path : date.getFullYear() + date.getMonth() + 1 + date.getDate();
+        let date = new Date();
+        let folder = req.query.path ? req.query.path : ` ${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
         folder = path.join(__dirname, `./public/upload/${folder}`);
-        if (req.query.path) {
-            // 指定位置存储文件
-            folder = path.join(__dirname, `./public/upload/${req.query.path}`);
-        } else {
-            // 根据默认规则存储文件
-            let date = new Date();
-            folder = path.join(__dirname, `./public/upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`);
-        }
         if (!fs.existsSync(folder)) {
             fs.mkdirSync(folder, { recursive: true });
         }
