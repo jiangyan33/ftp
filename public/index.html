@@ -25,8 +25,9 @@
                 processData: false,
                 contentType: false,
                 success: function (result) {
-                    if (result.resultCode == 200) {
-                        alert(result);
+                    console.log(result);
+                    if (result.success == 1) {
+                        alert(result.url);
                     };
                 },
                 error: function () {
