@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 const http = require('http');
-const { Z_FIXED } = require('zlib');
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
