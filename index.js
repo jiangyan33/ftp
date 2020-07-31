@@ -55,7 +55,7 @@ app.use('/upload', upload.single('file'), (req, res) => {
         // url: "图片地址" //上传成功时才返回
     };
     try {
-        return_data['url'] = req.file.path.substring(req.file.path.indexOf('/upload'));
+        return_data['url'] = 'http://120.79.185.158:3999' + req.file.path.substring(req.file.path.indexOf('/upload'));
         console.log(`文件上传成功,完成时间:${new Date().toLocaleString()}`);
     } catch (error) {
         return_data.success = 0;
