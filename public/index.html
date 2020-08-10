@@ -11,7 +11,7 @@
         function login() {
             var form = new FormData(document.getElementById("form"));
             var path = form.get('path');
-            var url = "/upload";
+            var url = "/uploadFile";
             if (path) {
                 url += `?path=${form.get('path')}`;
                 form.delete('path');
@@ -39,7 +39,7 @@
 </head>
 
 <body>
-    <form id="form" action="/" method="post" onsubmit="return false" enctype="multipart/form-data">
+    <form id="form" onsubmit="return false" enctype="multipart/form-data">
         <input type="file" name="file"><br>
         <label>路径地址:</label> <input type="text" name="path"><br>
         <input type="submit" value="上传" onclick="login()"><br>

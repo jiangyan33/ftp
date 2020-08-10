@@ -48,7 +48,7 @@ app.use((req, res, next) => {
     }
 });
 
-app.use('/upload', upload.single('file'), (req, res) => {
+app.use('/uploadFile', upload.single('file'), (req, res) => {
     let return_data = {
         success: 1, //0表示上传失败;1表示上传成功
         message: "上传成功",
