@@ -9,6 +9,12 @@ let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let date = new Date();
         let folder = req.query.path ? req.query.path : `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+        // 判断环境
+        if (!req.query.path) {
+            let env = req.query.env ? 'img_prod' : 'img_dev';
+
+            folder = `${env}/${folder}`;
+        }
         folder = path.join(__dirname, `./public/upload/${folder}`);
         if (!fs.existsSync(folder)) {
             fs.mkdirSync(folder, { recursive: true });
