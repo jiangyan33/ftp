@@ -11,7 +11,7 @@ let storage = multer.diskStorage({
         let folder = req.query.path ? req.query.path : `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
         // 判断环境
         if (!req.query.path) {
-            let env = req.query.env ? 'img_prod' : 'img_dev';
+            let env = req.query.env == 'img_prod' ? 'img_prod' : 'img_dev';
 
             folder = `${env}/${folder}`;
         }
