@@ -4,6 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 const http = require('http');
+const qiniu = require('qiniu');
+const { Stream } = require('stream');
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -32,6 +34,19 @@ let storage = multer.diskStorage({
         cb(null, fileName);
     }
 })
+
+let getUploadToken = function () {
+    const ak = '5o0F_NCDuPIbCx9gRvLU9SYFXDzCKEiM93rOAk65';
+    const sk = 'OFT1tw7-FoZsStvjXYQ9jfXznqmHtiGK7dGRBWDU';
+    const bucket = 'jiangyan33';
+    var options = {
+        scope: bucket,
+        expires: 7200
+    };
+    var mac = new qiniu.auth.digest.Mac(ak, sk);
+    var putPolicy = new qiniu.rs.PutPolicy(options);
+    return putPolicy.uploadToken(mac);
+};
 
 let upload = multer({ storage: storage });
 
@@ -70,10 +85,39 @@ app.use('/uploadFile', upload.single('file'), (req, res) => {
     return res.json(return_data);
 });
 
+app.use('/uploadQiNiu', multer().single('file'), (req, res) => {
+    uploadToken = getUploadToken();
+    const config = new qiniu.conf.Config();
+    config.zone = qiniu.zone.Zone_z2;
+    // 是否使用https域名
+    config.useHttpsDomain = true;
+    // 上传是否使用cdn加速
+    config.useCdnDomain = true;
+    const formUploader = new qiniu.form_up.FormUploader(config);
+    var putExtra = new qiniu.form_up.PutExtra();
+    const date = new Date();
+    // 文件上传的名称
+    let key = `upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}/${req.file.originalname}`;
+    formUploader.put(uploadToken, key, req.file.buffer, putExtra, function (respErr,
+        respBody, respInfo) {
+        if (respErr) {
+            throw respErr;
+        }
+        let result = { success: 1, message: '上传成功' };
+        if (respInfo.statusCode == 200) {
+            result['url'] = 'http://cdn.jiangyan.fun/' + respBody.key;
+        } else {
+            result.success = 0;
+            result.message = '上传失败' + respBody;
+        }
+        return res.json(result);
+    });
+});
+
 server.on('error', console.error);
 
 // 启动服务
-server.listen(3999, () => console.log(`文件服务器项目启动成功,启动时间:${new Date().toLocaleString()} please click\n http://127.0.0.1:3999`));
+server.listen(3999, '0.0.0.0', () => console.log(`文件服务器项目启动成功,启动时间:${new Date().toLocaleString()} please click\n http://127.0.0.1:3999`));
 
 // 进程事件的监听
 process.on('uncaughtException', error => { // 未捕获的异常事件
