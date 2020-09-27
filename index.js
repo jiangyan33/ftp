@@ -23,6 +23,7 @@ let storage = multer.diskStorage({
         }
         cb(null, path.join(folder));
     },
+    size: 10485760,
     filename: function (req, file, cb) {
         var fileName = undefined;
         if (req.query.path) {
