@@ -97,7 +97,8 @@ app.use('/uploadQiNiu', multer().single('file'), (req, res) => {
     var putExtra = new qiniu.form_up.PutExtra();
     const date = new Date();
     // 文件上传的名称
-    let key = `upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}/${req.file.originalname}`;
+    fileName = uuidv4() + "." + req.file.originalname.substring(req.file.originalname.lastIndexOf('.') + 1);
+    let key = `upload/${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}/${fileName}`;
     formUploader.put(uploadToken, key, req.file.buffer, putExtra, function (respErr,
         respBody, respInfo) {
         if (respErr) {

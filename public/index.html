@@ -14,8 +14,8 @@
             var url = "/uploadFile";
             if (path) {
                 url += `?path=${form.get('path')}`;
-                form.delete('path');
             }
+            form.delete('path');
             $.ajax({
                 //几个参数需要注意一下
                 type: "POST",//方法类型
