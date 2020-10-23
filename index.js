@@ -55,8 +55,6 @@ let app = express();
 
 const server = http.createServer(app);
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use((req, res, next) => {
     //跨域问题, 有个第三方库https://github.com/expressjs/cors
     res.header("Access-Control-Allow-Origin", "*");
@@ -69,6 +67,7 @@ app.use((req, res, next) => {
         next();
     }
 });
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/uploadFile', upload.single('file'), (req, res) => {
     let return_data = {
