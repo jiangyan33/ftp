@@ -9,6 +9,7 @@ const { Stream } = require('stream');
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
+        console.log('helloworld');
         let date = new Date();
         let folder = req.query.path ? req.query.path : `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
         // 判断环境
@@ -70,6 +71,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/uploadFile', upload.single('file'), (req, res) => {
+    console.log('水水水水水');
     let return_data = {
         success: 1, //0表示上传失败;1表示上传成功
         message: "上传成功",
@@ -80,9 +82,11 @@ app.use('/uploadFile', upload.single('file'), (req, res) => {
         console.log(`文件上传成功,完成时间:${new Date().toLocaleString()}`);
     } catch (error) {
         return_data.success = 0;
-        return_data.message = error;
+        return_data.message = error.toLocaleString();
+        return_data.url = "";
     }
-    return res.json(return_data);
+    res.json(return_data);
+    res.end();
 });
 
 app.use('/uploadQiNiu', multer().single('file'), (req, res) => {
@@ -110,6 +114,7 @@ app.use('/uploadQiNiu', multer().single('file'), (req, res) => {
         } else {
             result.success = 0;
             result.message = '上传失败' + respBody;
+            result.url = "";
         }
         return res.json(result);
     });
